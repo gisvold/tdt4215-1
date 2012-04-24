@@ -1,1 +1,44 @@
+\chapter{Theory}
 \section{Theories}
+One of the theories which we have tried to bring into practice, is the Vector Space Model. This is an algebraic model, that serves for representing documents as vectors of index terms. It is widely used in information retrieval, indexing and ranking of the retrieved objects according to the query-relevance. The procedure that this model employs, is divided into three parts:
+\begin{enumerate}
+\item{Document indexing is the process of extracting the content bearing terms.}
+\item{Weighting of the indexed terms is assigning the importance to each term by a frequency metric.}
+\item{Ranking the documents with respect to the query, according to a similarity metric.}
+\end{enumerate}
+In this model,both documents and queries are represented as vectors, in the form:
+\[
+d_j = (w_{1,j}, w_{2,j}, ..., w_{n,j})
+\]
+\[
+q = (w_{1,q}, w_{2,q}, ..., w_{t,q})
+\]
+where each dimension corresponds to a separate term. The notion of a term, varies with the application. It can be a word, or a phrase or sentence, in our case we regard them as words. The value of the terms that do occur in the document, is non-zero. This value is normally weighted by some frequency measures. The most used one, is the tf*idf , which stands for : term-frequency* inverse- document- frequency.  This measure, tells us how important a word is, both in the context of a document, and the collection of documents where this belongs. The tf*idf value, increases proportionally with the number of times the word occurs in the document, but it is offset by the number of times the word appears in the rest of the documents. We do this, in order to avoid the counting of generally heavily used words,which are common for the whole document set, as terms that are used specifically in a particular document. 
+When indexing a document, we try to remove the words that do not describe the content. These are common functional words like : the, is etc.  This indexing can be based on the term frequency, by calculating the overall frequency of a particular word. These are also called, stopwords. 
+Term -Weighting  has been explained by exploring the exhaustivity and specificity, where exhaustivity is related to recall, and specificity to precision. 
+The final part of this model, is concerned with the ranking of the documents, by their relevance to the query. This ranking is done by using a similarity measure called cosine similarity. As we have also pointed out in the above text, the documents and queries are represented as vectors. With the cosine similarity, we try to find out, how different these two vectors are by calculating the angle between them. The basic formula used, is:
+\[
+\cos(\theta) = \frac{d_2 \times q}{\parallel d_2 \parallel \times \parallel q \parallel}
+\]
+where the enumerator denotes the dot (vector) product, and the denominator does the normalization. As all values of the vectors are non-negative, a cos value of zero, would mean orthogonality between the vectors and thus no match between them. 
+Some of the limitations that this model imposes, are:
+\begin{itemize}
+\item{Long documents are poorly represented, by a small scalar product and a large dimensionality.}
+\item{Not every relevant words gets matched. Substrings would give a “false positive”.}
+\item{There is a semantic sensitivity because of the existence of synonymy and polysemy, which hide the true semantics of the text.}
+\item{When indexing the documents, the order of terms is lost.}
+\item{With VSM, we are working under the assumption of statistical independence between words.}
+\end{itemize}
+
+\section{Adaption of theories}
+In our work, we used the VSM model in order to complete the tasks. We followed quite accurately, the steps presented in the theory, with the exception of adding a document-term matrix, something which is not covered by the VSM model theory. Listing the steps of the procedure; firstly we did the:
+\begin{itemize}
+\item{HTML -stripping,}
+\item{then the removal of the stopwords,}
+\item{further we prefformed the stemming of the remaining words}
+\item{and finally built the term-doc matrix from preprocessed therapy chapters.}
+\end{itemize}
+Since only terms in the search domain are relevant for the search, we did not include unique terms from the casefiles(our queries).
+then the terms were weighted using the tf*idf-method explained above. 
+Another thing to be mentioned is that ,we only considered sub chapters that had their own html-file, as separate entities. The others were considered as part of the chapter. 
+After a trial of the LSI method, we found out that pure VSM was already giving results that were almost as acceptable. 

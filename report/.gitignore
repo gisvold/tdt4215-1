@@ -1,0 +1,7 @@
+# Ignoring these files #
+########################
+*.aux
+*.log
+*.pdf
+*.gz
+*.toc
