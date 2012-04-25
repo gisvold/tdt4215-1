@@ -31,14 +31,20 @@ Some of the limitations that this model imposes, are:
 \end{itemize}
 
 \section{Adaption of theories}
-In our work, we used the VSM model in order to complete the tasks. We followed quite accurately, the steps presented in the theory, with the exception of adding a document-term matrix, something which is not covered by the VSM model theory. Listing the steps of the procedure; firstly we did the:
+In order to employ the conveniences of the VSM model, we had to do a bit of preparatory work.
+Given the Patient-Cases, as a text file, after having read it, we had to remove the stopwords in each of the cases, in order to enlarge the scope of the actually relevant words.
+Then we used the snowball-stemmer, in order to stem all the words contained in the files. Now, the files are ready to be used as a search query, with respect to the ICD/ATC.
+After that, we preprocessed the Therapy Chapters (Teorikapitlene) of the NHL ,by stripping them from the HTML-tags, and transforming the file into an XML file. We performed the 'snowball'-stemming also on the therapy chapters.
+The ICD10 codes were handed as an .owl file. We did the filtering by setting rules about loading the ICD10/ATC and created classes for labels codes(ICD10/ATC) and synonyms.
+Then we used the 'apache.Digeseter' for each ICD10 code . After that, we put all the ICD10 classes in a list, and indexed them with the help of 'Apache.lucene'; after that, we put the already indexed files in a folder. Now we can use also the NHL- theory chapters as search parameters, when searching through the saved indexed files. In the end, the goal is to compare these two results, in order to find a relevant match between the Clinical/Patient cases and the therapy chapter of the NHL. 
+As it has previously been mentioned, we employed the VSM model in order to complete the tasks. We followed, quite accurately, the steps presented in the theory, with the exception of adding a document-term matrix, something which is not covered by the VSM model theory. Listing the steps of the procedure; firstly we:
 \begin{itemize}
-\item{HTML -stripping,}
-\item{then the removal of the stopwords,}
-\item{further we prefformed the stemming of the remaining words}
-\item{and finally built the term-doc matrix from preprocessed therapy chapters.}
+\item{built the term-doc matrix from preprocessed therapy chapters,}
+\item{then we weighted the words in each document, by using the tf*idf  formula,}
+\item{followed by calculating the cosine similarity, expressed in the formula above}
+\item{and finally ranged the documents in a descending similarity-metric order.}
 \end{itemize}
-Since only terms in the search domain are relevant for the search, we did not include unique terms from the casefiles(our queries).
-then the terms were weighted using the tf*idf-method explained above. 
-Another thing to be mentioned is that ,we only considered sub chapters that had their own html-file, as separate entities. The others were considered as part of the chapter. 
-After a trial of the LSI method, we found out that pure VSM was already giving results that were almost as acceptable. 
+Here follow some remarks to be noted: \\
+Since only terms in the search domain were relevant for the search, we did not include unique terms from the casefiles (our queries). Then the terms were weighted using the tf*idf-method explained above. 
+Another thing to be mentioned is that, we considered as separate entities, only sub-chapters that had their own html-file. The others were considered as part of the chapter. 
+After a prototypical - trial of the LSI method, we found out that pure VSM was already giving results that were exactly as acceptable. 
